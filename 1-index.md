@@ -55,3 +55,52 @@ pprint(client_info.body)
 | **兼容性** | minimum_wire_compatibility_version | 7.17.0 | 最低网络通信兼容版本 |
 |  | minimum_index_compatibility_version | 7.0.0 | 最低索引兼容版本 |
 
+
+# 实际上和我们本上打开这个网址的返回是一样的
+![alt text](README_Images/1-index/image-1.png)
+
+# 删除索引
+```python
+es.indices.delete(index='my_index', ignore_unavailable=True)
+```
+![alt text](README_Images/1-index/image-2.png)
+# 创建index 
+```python
+es.indices.create(index='my_index')
+```
+![alt text](README_Images/1-index/image-3.png)
+
+
+# 创建索引的同时可以指定分片数量`numbers_of_shards`及备份数量`number_of_replicas`
+![alt text](README_Images/1-index/image-4.png)
+![alt text](README_Images/1-index/image-5.png)
+```python
+es.indices.delete(index='my_index',ignore_unavailable=True)
+es.indices.create(
+    index='my_index',
+    settings={
+        "index":{
+        "number_of_shards":3,
+        "number_of_replicas":2
+     }
+    }
+)
+```
+# 通过document的方式而非create,会自动检查该索引存在还是不存在的
+```python
+document = {
+    "title": "Elasticsearch 入门指南",
+    "content": "这是一个关于Elasticsearch的教程文档",
+    "author": "张三",
+    "tags": ["elasticsearch", "教程", "搜索"],
+    "created_at": "2024-01-15T10:30:00",
+    "views": 150,
+    "published": True,
+    "rating": 4.5
+}
+response = es.index(index="my_index", document=document)
+response
+```
+![alt text](README_Images/1-index/image-6.png)
+
+#
