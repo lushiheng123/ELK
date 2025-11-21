@@ -16,6 +16,15 @@ docker run -d --name kibana \
 
 ```
 
+```sh 
+docker run -d --name filebeat \
+  --link elasticsearch:elasticsearch \
+  --link kibana:kibana \
+  -v /home/lushiheng/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml \
+  -v /var/log:/var/log:ro \
+  elastic/filebeat:9.1.7
+```
+
 # jupyter notebook . 启动，安装
 ```sh
 # 查看当前安装的 elasticsearch 包版本
